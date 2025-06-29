@@ -1,40 +1,46 @@
 
- import { notFound } from 'next/navigation'
-import connectToDB from '@/lib/db'
-import Post from '@/models/Post'
-import { Metadata } from 'next'
-import Image from 'next/image'
+ import { notFound } from 'next/navigation';
+import connectToDB from '@/lib/db';
+import Post from '@/models/Post';
+import { Metadata } from 'next';
 
-interface PageProps {
-  params: { slug: string }
-}
+// ✅ Correct type for route parameters
+type PageProps = {
+  params: {
+    slug: string;
+  };
+};
 
+// ✅ Generate metadata based on the slug
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  await connectToDB()
-  const post = await Post.findOne({ slug: params.slug })
+  await connectToDB();
+  const post = await Post.findOne({ slug: params.slug });
 
-  if (!post) return { title: 'Post Not Found' }
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
 
-  return { title: post.title, description: post.description }
+  return {
+    title: post.title,
+  };
 }
 
+// ✅ Main blog page component
 export default async function BlogPage({ params }: PageProps) {
-  await connectToDB()
-  const post = await Post.findOne({ slug: params.slug })
+  await connectToDB();
+  const post = await Post.findOne({ slug: params.slug });
 
-  if (!post) return notFound()
+  if (!post) {
+    return notFound();
+  }
 
   return (
-    <div className="p-8">
-      <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-      <Image
-        src={post.image}
-        alt={post.title}
-        width={800}
-        height={400}
-        className="rounded-lg mb-6"
-      />
-      <div className="text-lg leading-8 text-gray-800">{post.content}</div>
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.description}</p>
+      <div>{post.content}</div>
     </div>
-  )
+  );
 }
