@@ -4,19 +4,19 @@ import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-// ✅ SEO metadata
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
+// ✅ Correctly typed with Next.js's built-in types
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+// SEO Metadata
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'This post does not exist.',
-    };
-  }
+  if (!post) return {};
 
   return {
     title: post.title,
@@ -24,10 +24,8 @@ export async function generateMetadata(
   };
 }
 
-// ✅ Blog Page
-export default async function BlogPage(
-  { params }: { params: { slug: string } }
-) {
+// ✅ Page Component
+export default async function BlogPage({ params }: PageProps) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -40,9 +38,7 @@ export default async function BlogPage(
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
           {post.title}
         </h1>
-        <p className="text-gray-600 text-sm">
-          Published on {new Date(post.createdAt).toDateString()}
-        </p>
+        <p className="text-gray-600 text-sm">Published on {new Date(post.createdAt).toDateString()}</p>
         <div className="mt-6 flex justify-center">
           <Image
             src="/assets/blogging.svg"
