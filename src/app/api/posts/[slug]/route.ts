@@ -1,18 +1,17 @@
 
 import { NextRequest, NextResponse } from 'next/server';
-import { NextApiRequestContext } from 'next';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 
 // ✅ GET: Fetch a single post
 export async function GET(
   req: NextRequest,
-  context: NextApiRequestContext
+  { params }: { params: { slug: string } }
 ) {
   await connectToDB();
 
   try {
-    const post = await Post.findOne({ slug: context.params.slug });
+    const post = await Post.findOne({ slug: params.slug });
 
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
@@ -27,12 +26,12 @@ export async function GET(
 // ✅ DELETE: Remove a post by slug
 export async function DELETE(
   req: NextRequest,
-  context: NextApiRequestContext
+  { params }: { params: { slug: string } }
 ) {
   await connectToDB();
 
   try {
-    const deleted = await Post.findOneAndDelete({ slug: context.params.slug });
+    const deleted = await Post.findOneAndDelete({ slug: params.slug });
 
     if (!deleted) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
@@ -43,4 +42,3 @@ export async function DELETE(
     return NextResponse.json({ error: 'Error deleting post' }, { status: 500 });
   }
 }
-
