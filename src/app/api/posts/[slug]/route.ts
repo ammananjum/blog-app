@@ -5,7 +5,7 @@ import Post from '@/models/Post';
 
 // ✅ GET: Fetch a single post
 export async function GET(
-  request: NextRequest,
+  req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   await connectToDB();
@@ -25,7 +25,7 @@ export async function GET(
 
 // ✅ DELETE: Remove a post by slug
 export async function DELETE(
-  request: NextRequest,
+  req: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   await connectToDB();
