@@ -16,22 +16,22 @@ interface Post {
 export default function AdminDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
 
-  useEffect(() => {
-    fetch('/api/posts')
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setPosts(data);
-        } else {
-          console.error('Unexpected API response:', data);
-          setPosts([]);
-        }
-      })
-      .catch((err) => {
-        console.error('Error fetching posts:', err);
-        setPosts([]);
-      });
-  }, []);
+ useEffect(() => {
+  fetch('/api/posts')
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setPosts([]);  // avoid crash
+      }
+    })
+    .catch((error) => {
+      console.error('Failed to fetch posts:', error);
+    });
+}, []);
+
 
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
