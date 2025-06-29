@@ -1,36 +1,28 @@
-import { notFound } from 'next/navigation';
-import connectToDB from '@/lib/db';
-import Post from '@/models/Post';
-import { Metadata } from 'next';
-import Image from 'next/image';
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
+ import { notFound } from 'next/navigation'
+import connectToDB from '@/lib/db'
+import Post from '@/models/Post'
+import { Metadata } from 'next'
+import Image from 'next/image'
+
+interface PageProps {
+  params: { slug: string }
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  await connectToDB();
-  const post = await Post.findOne({ slug: params.slug });
+  await connectToDB()
+  const post = await Post.findOne({ slug: params.slug })
 
-  if (!post) {
-    return {
-      title: 'Post Not Found',
-    };
-  }
+  if (!post) return { title: 'Post Not Found' }
 
-  return {
-    title: post.title,
-    description: post.description,
-  };
+  return { title: post.title, description: post.description }
 }
 
 export default async function BlogPage({ params }: PageProps) {
-  await connectToDB();
-  const post = await Post.findOne({ slug: params.slug });
+  await connectToDB()
+  const post = await Post.findOne({ slug: params.slug })
 
-  if (!post) return notFound();
+  if (!post) return notFound()
 
   return (
     <div className="p-8">
@@ -44,5 +36,5 @@ export default async function BlogPage({ params }: PageProps) {
       />
       <div className="text-lg leading-8 text-gray-800">{post.content}</div>
     </div>
-  );
+  )
 }
