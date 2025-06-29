@@ -17,10 +17,22 @@ export default function AdminDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-    fetch('/api/posts')
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
-  }, []);
+  fetch('/api/posts')
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data)) {
+        setPosts(data);
+      } else {
+        console.error('Unexpected response:', data);
+        setPosts([]); // fallback to empty if API returns error
+      }
+    })
+    .catch((err) => {
+      console.error('Fetch error:', err);
+      setPosts([]); // fallback on fetch failure
+    });
+}, []);
+
 
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
