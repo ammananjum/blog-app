@@ -1,17 +1,13 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 
-// ✅ GET a single post
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+// ✅ GET a single post by slug
+export async function GET(req: NextRequest, context: any) {
   await connectToDB();
 
   try {
-    const post = await Post.findOne({ slug: params.slug });
+    const post = await Post.findOne({ slug: context.params.slug });
 
     if (!post) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
@@ -23,15 +19,12 @@ export async function GET(
   }
 }
 
-// ✅ DELETE a post
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
+// ✅ DELETE a single post by slug
+export async function DELETE(req: NextRequest, context: any) {
   await connectToDB();
 
   try {
-    const deleted = await Post.findOneAndDelete({ slug: params.slug });
+    const deleted = await Post.findOneAndDelete({ slug: context.params.slug });
 
     if (!deleted) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
