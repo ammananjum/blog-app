@@ -1,23 +1,20 @@
-
-
-  
 import { notFound } from 'next/navigation';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}): Promise<Metadata> {
+// ✅ SEO metadata
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
   if (!post) {
     return {
       title: 'Post Not Found',
+      description: 'This post does not exist.',
     };
   }
 
@@ -27,11 +24,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function BlogPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// ✅ Blog Page
+export default async function BlogPage(
+  { params }: { params: { slug: string } }
+) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -39,6 +35,7 @@ export default async function BlogPage({
 
   return (
     <div className="bg-white min-h-screen">
+      {/* Header */}
       <div className="bg-gradient-to-r from-blue-100 to-purple-100 py-12 px-4 text-center">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
           {post.title}
@@ -56,6 +53,7 @@ export default async function BlogPage({
         </div>
       </div>
 
+      {/* Content */}
       <article className="prose lg:prose-lg prose-blue mx-auto px-4 sm:px-6 py-12">
         <div dangerouslySetInnerHTML={{ __html: post.content }} />
       </article>
