@@ -4,15 +4,13 @@ import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-// ✅ Correctly typed with Next.js's built-in types
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
+// ✅ No custom BlogPageProps interface – use inline typing only
 
-// SEO Metadata
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -24,8 +22,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-// ✅ Page Component
-export default async function BlogPage({ params }: PageProps) {
+export default async function BlogPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -38,7 +39,9 @@ export default async function BlogPage({ params }: PageProps) {
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
           {post.title}
         </h1>
-        <p className="text-gray-600 text-sm">Published on {new Date(post.createdAt).toDateString()}</p>
+        <p className="text-gray-600 text-sm">
+          Published on {new Date(post.createdAt).toDateString()}
+        </p>
         <div className="mt-6 flex justify-center">
           <Image
             src="/assets/blogging.svg"
