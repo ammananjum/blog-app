@@ -4,14 +4,18 @@ import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
+// ✅ Correct interface
 interface BlogPageProps {
   params: {
     slug: string;
   };
 }
 
-//  SEO Meta Tags
-export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
+// ✅ FIXED: Properly typed metadata function
+export async function generateMetadata(
+  props: { params: { slug: string } }
+): Promise<Metadata> {
+  const { params } = props;
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -37,7 +41,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
           {post.title}
         </h1>
-        <p className="text-gray-600 text-sm">Published on {new Date(post.createdAt).toDateString()}</p>
+        <p className="text-gray-600 text-sm">
+          Published on {new Date(post.createdAt).toDateString()}
+        </p>
         <div className="mt-6 flex justify-center">
           <Image
             src="/assets/blogging.svg"
