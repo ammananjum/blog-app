@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 
-// ✅ GET: Fetch a single post
+
 export async function GET(
   req: NextRequest,
   context: { params: { slug: string } }
@@ -22,7 +22,7 @@ export async function GET(
   }
 }
 
-// ✅ DELETE: Remove a post by slug
+
 export async function DELETE(
   req: NextRequest,
   context: { params: { slug: string } }
@@ -41,3 +41,4 @@ export async function DELETE(
     return NextResponse.json({ error: 'Error deleting post' }, { status: 500 });
   }
 }
+
