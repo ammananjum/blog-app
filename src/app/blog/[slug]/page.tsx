@@ -1,17 +1,17 @@
+
+
 import { notFound } from 'next/navigation';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-type Props = {
+// ✅ Correct type format
+export async function generateMetadata({
+  params,
+}: {
   params: { slug: string };
-};
-
-// ✅ Corrected: generateMetadata
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
+}): Promise<Metadata> {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
@@ -24,7 +24,11 @@ export async function generateMetadata(
 }
 
 // ✅ Page Component
-export default async function BlogPage({ params }: Props) {
+export default async function BlogPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
