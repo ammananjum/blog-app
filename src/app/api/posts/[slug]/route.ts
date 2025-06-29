@@ -5,7 +5,7 @@ import Post from '@/models/Post';
 
 // ✅ GET: Fetch a single post
 export async function GET(
-  req: NextRequest,
+  request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   await connectToDB();
@@ -25,20 +25,20 @@ export async function GET(
 
 // ✅ DELETE: Remove a post by slug
 export async function DELETE(
-  req: NextRequest,
+  request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   await connectToDB();
 
   try {
-    const deleted = await Post.findOneAndDelete({ slug: params.slug });
+    const deletedPost = await Post.findOneAndDelete({ slug: params.slug });
 
-    if (!deleted) {
+    if (!deletedPost) {
       return NextResponse.json({ error: 'Post not found' }, { status: 404 });
     }
 
     return NextResponse.json({ message: 'Post deleted successfully' });
   } catch (error) {
-    return NextResponse.json({ error: 'Error deleting post' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete post' }, { status: 500 });
   }
 }
