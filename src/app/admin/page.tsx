@@ -17,31 +17,28 @@ export default function AdminDashboard() {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
-  fetch('/api/posts')
-    .then((res) => res.json())
-    .then((data) => {
-      if (Array.isArray(data)) {
-        setPosts(data);
-      } else {
-        console.error('Unexpected response:', data);
-        setPosts([]); // fallback to empty if API returns error
-      }
-    })
-    .catch((err) => {
-      console.error('Fetch error:', err);
-      setPosts([]); // fallback on fetch failure
-    });
-}, []);
-
+    fetch('/api/posts')
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPosts(data);
+        } else {
+          console.error('Unexpected API response:', data);
+          setPosts([]);
+        }
+      })
+      .catch((err) => {
+        console.error('Error fetching posts:', err);
+        setPosts([]);
+      });
+  }, []);
 
   const handleDelete = async (slug: string) => {
     if (!confirm('Are you sure you want to delete this post?')) return;
 
-    const res = await fetch(`/api/posts/${slug}`, {
-      method: 'DELETE',
-    });
-
+    const res = await fetch(`/api/posts/${slug}`, { method: 'DELETE' });
     const data = await res.json();
+
     if (res.ok) {
       alert('Post deleted!');
       setPosts((prev) => prev.filter((p) => p.slug !== slug));
@@ -52,38 +49,34 @@ export default function AdminDashboard() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12">
-      {/* Header Section */}
-     {/* Header Section */}
-<div className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white rounded-xl overflow-hidden shadow-md mb-10">
-  <div className="grid md:grid-cols-2 items-center gap-6 px-8 py-8">
-
+      {/* Header */}
+      <div className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white rounded-xl overflow-hidden shadow-md mb-10">
+        <div className="grid md:grid-cols-2 items-center gap-6 px-8 py-8">
           <div>
             <h1 className="text-4xl font-bold mb-3 drop-shadow">Admin Dashboard</h1>
             <p className="text-lg opacity-90">
               Manage all your blog posts with a clean and responsive interface.
             </p>
             <Link
-  href="/admin/create"
-  className="inline-block mt-4 bg-white text-blue-700 font-semibold px-5 py-2.5 rounded-lg shadow hover:bg-gray-100 transition"
->
-  Create New Post
-</Link>
-
+              href="/admin/create"
+              className="inline-block mt-4 bg-white text-blue-700 font-semibold px-5 py-2.5 rounded-lg shadow hover:bg-gray-100 transition"
+            >
+              Create New Post
+            </Link>
           </div>
           <div className="hidden md:block">
             <Image
-  src="/assets/dashboard.svg"
-  alt="Admin"
-  width={400}
-  height={250}
-  className="object-contain"
-/>
-
+              src="/assets/dashboard.svg"
+              alt="Admin"
+              width={400}
+              height={250}
+              className="object-contain"
+            />
           </div>
         </div>
       </div>
 
-      {/* Posts Section */}
+      {/* Posts */}
       {posts.length === 0 ? (
         <div className="text-center mt-20 text-gray-500">
           <Image
