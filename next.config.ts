@@ -1,4 +1,3 @@
-// next.config.ts
 const nextConfig = {
   images: {
     domains: ['source.unsplash.com'],
