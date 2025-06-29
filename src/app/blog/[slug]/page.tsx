@@ -4,22 +4,18 @@ import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-// ✅ Correct interface
-interface BlogPageProps {
-  params: {
-    slug: string;
-  };
-}
+type Props = {
+  params: { slug: string };
+};
 
-// ✅ FIXED: Properly typed metadata function
+// ✅ Corrected: generateMetadata
 export async function generateMetadata(
-  props: { params: { slug: string } }
+  { params }: Props
 ): Promise<Metadata> {
-  const { params } = props;
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
-  if (!post) return {};
+  if (!post) return { title: 'Post Not Found' };
 
   return {
     title: post.title,
@@ -28,7 +24,7 @@ export async function generateMetadata(
 }
 
 // ✅ Page Component
-export default async function BlogPage({ params }: BlogPageProps) {
+export default async function BlogPage({ params }: Props) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
