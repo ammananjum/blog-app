@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 
-// ✅ GET: Fetch a single post
+// ✅ GET a single post
 export async function GET(
   req: NextRequest,
   { params }: { params: { slug: string } }
@@ -23,7 +23,7 @@ export async function GET(
   }
 }
 
-// ✅ DELETE: Remove a post by slug
+// ✅ DELETE a post
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { slug: string } }
