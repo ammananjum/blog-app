@@ -1,5 +1,4 @@
-
-    <import { notFound } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 import { Metadata } from 'next';
