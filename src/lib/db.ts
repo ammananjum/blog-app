@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const MONGODB_URI = process.env.MONGODB_URI as string;
@@ -33,20 +34,6 @@ async function dbConnect() {
         console.error('❌ MongoDB connection failed:', err);
         throw err;
       });
-  }
-
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
-
-export default dbConnect;
-ise) {
-    cached.promise = mongoose.connect(MONGODB_URI, {
-      dbName: 'blogDB',
-      bufferCommands: false,
-    }).then((mongoose) => {
-      return mongoose;
-    });
   }
 
   cached.conn = await cached.promise;
