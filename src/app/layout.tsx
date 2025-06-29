@@ -1,31 +1,32 @@
-
-   'use client';
-
+'use client';
 import './globals.css';
 import Link from 'next/link';
 import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-  const closeMenu = () => setMenuOpen(false);
+  const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
     <html lang="en">
       <body className="bg-white text-gray-900 font-sans leading-relaxed">
         {/* Navbar */}
-        <nav className="bg-transparent sticky top-0 z-50 backdrop-blur-md shadow-sm">
+        <nav className="bg-transparent sticky top-0 z-50 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
             <h1 className="text-2xl sm:text-3xl font-extrabold text-blue-700 tracking-tight">
               MyDevBlog
             </h1>
 
-            {/* Desktop Menu */}
+            {/* Desktop menu */}
             <ul className="hidden md:flex gap-8 text-base sm:text-lg font-medium text-gray-800">
               {['Home', 'Dashboard', 'About', 'Contact'].map((label) => {
-                const href = label === 'Home' ? '/' : label === 'Dashboard' ? '/admin' : `/#${label.toLowerCase()}`;
+                const href =
+                  label === 'Home'
+                    ? '/'
+                    : label === 'Dashboard'
+                    ? '/admin'
+                    : `/#${label.toLowerCase()}`;
                 return (
                   <li key={label}>
                     <Link
@@ -39,25 +40,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               })}
             </ul>
 
-            {/* Hamburger Icon */}
+            {/* Hamburger icon */}
             <div className="md:hidden">
-              <button onClick={toggleMenu} className="text-2xl text-blue-700">
-                {menuOpen ? <FaTimes /> : <FaBars />}
+              <button
+                className="flex flex-col gap-1 focus:outline-none"
+                onClick={toggleMenu}
+              >
+                <span className="w-6 h-0.5 bg-gray-800"></span>
+                <span className="w-6 h-0.5 bg-gray-800"></span>
+                <span className="w-6 h-0.5 bg-gray-800"></span>
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          {menuOpen && (
-            <div className="md:hidden bg-white shadow-md border-t border-gray-100">
-              <ul className="flex flex-col items-center gap-4 py-4 text-lg font-medium">
+          {/* Mobile menu */}
+          {isOpen && (
+            <div className="md:hidden px-6 pb-4">
+              <ul className="flex flex-col gap-4 text-gray-800 font-medium text-base">
                 {['Home', 'Dashboard', 'About', 'Contact'].map((label) => {
-                  const href = label === 'Home' ? '/' : label === 'Dashboard' ? '/admin' : `/#${label.toLowerCase()}`;
+                  const href =
+                    label === 'Home'
+                      ? '/'
+                      : label === 'Dashboard'
+                      ? '/admin'
+                      : `/#${label.toLowerCase()}`;
                   return (
-                    <li key={label} onClick={closeMenu}>
+                    <li key={label}>
                       <Link
                         href={href}
-                        className="block text-gray-800 hover:text-blue-600 transition"
+                        onClick={() => setIsOpen(false)}
+                        className="block hover:text-blue-600 transition"
                       >
                         {label}
                       </Link>
@@ -75,4 +87,3 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
-
