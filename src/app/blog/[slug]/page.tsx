@@ -1,24 +1,25 @@
 
 
+  
 import { notFound } from 'next/navigation';
 import connectToDB from '@/lib/db';
 import Post from '@/models/Post';
 import { Metadata } from 'next';
 import Image from 'next/image';
 
-// ✅ Correct types
-type Params = {
-  params: {
-    slug: string;
-  };
-};
-
-// ✅ SEO Metadata function
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
-  if (!post) return { title: 'Post Not Found' };
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
 
   return {
     title: post.title,
@@ -26,8 +27,11 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   };
 }
 
-// ✅ Main Page Component
-export default async function BlogPage({ params }: Params) {
+export default async function BlogPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   await connectToDB();
   const post = await Post.findOne({ slug: params.slug });
 
