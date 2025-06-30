@@ -27,10 +27,13 @@ export default async function BlogPage({ params }: { params: any }) {
   }
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.description}</p>
-      <div>{post.content}</div>
+    <div className="max-w-3xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
+      <p className="text-gray-600 mb-6">{post.description}</p>
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
     </div>
   );
 }
