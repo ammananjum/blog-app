@@ -55,7 +55,10 @@ A full-stack blog website developed using **React**, **Node.js**, **Express**, a
 > Simple and clean form to add new blog content.
 
 
-##  Live Demo
-COMMING SOON...........
+##  Live Website 
+https://blog-app-dq95-git-main-ammans-projects-0ecf7ed3.vercel.app/
+
+# Linkdlen
+https://www.linkedin.com/in/amman-csstudent-7b345b370
 
 
