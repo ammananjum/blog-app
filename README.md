@@ -17,8 +17,8 @@ A full-stack blog website developed using **React**, **Node.js**, **Express**, a
 
 ## Tech Stack
 
-- **Frontend**: React, Axios, CSS
-- **Backend**: Node.js, Express
+- **Frontend**: React, CSS
+- **Backend**: Node.js
 - **Database**: MongoDB Atlas
 
 
