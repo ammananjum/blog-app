@@ -21,15 +21,6 @@ A full-stack blog website developed using **React**, **Node.js**, **Express**, a
 - **Backend**: Node.js
 - **Database**: MongoDB Atlas
 
-
----
-##  Website Preview
-
-> **Note for Reviewers**:  
-> Live deployment was not possible due to hosting limitations.  
-> The following screenshots demonstrate full functionality of the project.  
-> You can also run the project locally using the instructions below.
-
 ---
 
 ###  Homepage
